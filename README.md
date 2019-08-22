@@ -1,7 +1,10 @@
 # express-fluffy-train (Temporary name - Work in Progress)
 
+[![Travis CI - Build Status](https://travis-ci.org/rhumaric/express-fluffy-train.svg?branch=master)](https://travis-ci.org/rhumaric/express-fluffy-train)
+[![Appveyor - Build status](https://ci.appveyor.com/api/projects/status/r2kkx586wajvfm7q/branch/master?svg=true)](https://ci.appveyor.com/project/rhumaric/express-fluffy-train/branch/master)
+
 An express middleware that discovers and loads routes within directories. Declare your routes through:
- 
+
 - `/folder/routes.js`: Export an array of middlewares, an object with `use`, `get`,`post`,`put`... or a `configure(router)` function to easily declare routes within `/folder`.
 - `/folder/<method>.js`: Export a function or an array of middewares to handle the `<method> /folder` route.
 - `/folder/path.<method>.js`: Similarly, export a function or array of middlewares that handle the `<method> /folder/path` route. Saves creating a folder just for the sake of `/folder/path/<method>.js`
