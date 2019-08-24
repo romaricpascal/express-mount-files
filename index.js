@@ -18,9 +18,27 @@ module.exports = function(root, { cwd = process.cwd() } = {}) {
     // Create a new router specific to this route
     // configure it and set it up
     const subRouter = new Router();
-    config(subRouter);
+    applyConfiguration(subRouter, config);
     router.use('/' + path.dirname(route), subRouter);
   });
 
   return router;
 };
+
+function applyConfiguration(router, config) {
+  if (Array.isArray(config)) {
+    router.use(...config);
+  } else if (typeof config == 'object') {
+    applyConfigurationObject(router, config);
+  } else {
+    config(router);
+  }
+}
+
+function applyConfigurationObject(router, config) {
+  ['get', 'post', 'put', 'delete'].forEach(method => {
+    if (config[method]) {
+      router[method]('/', config[method]);
+    }
+  });
+}

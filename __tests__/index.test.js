@@ -13,8 +13,23 @@ test.before(t => {
   t.context.agent = request.agent(app);
 });
 
-test('it loads a function in routes.js', t => {
-  return t.context.agent.get('/routes-function').then(response => {
-    t.assert(response.status == 200);
+// All tests will be the same, send request to a given URL
+// and check the return status (200) and possibly the content
+function testResponse(t, path, { status = 200, method = 'get', body } = {}) {
+  return t.context.agent[method](path).then(response => {
+    t.assert(response.status == status);
+    if (body) {
+      t.assert(body == response.text);
+    }
   });
+}
+
+test('it loads a function in routes.js', testResponse, '/routes-function');
+test('it loads an object in routes.js', testResponse, '/routes-object');
+test('it loads an object in routes.js - POST', testResponse, '/routes-object', {
+  method: 'post'
+});
+test('it loads an array in routes.js', testResponse, '/routes-array', {
+  status: 201,
+  body: 'content'
 });
