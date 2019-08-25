@@ -13,6 +13,7 @@ module.exports = {
       ({ status: responseStatus, text: responseText }) => {
         t.assert(status == responseStatus);
         if (text) {
+          console.log(responseText);
           t.assert(text == responseText);
         }
       }
