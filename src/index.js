@@ -27,24 +27,38 @@ module.exports = function(root, { cwd = process.cwd() } = {}) {
     router.use('/' + path.dirname(route), subRouter);
   });
 
-  const methodFiles = fastGlob.sync(`**/{*.,}(${HTTP_METHODS.join('|')}).js`, {
-    cwd: root
-  });
+  const methodFiles = fastGlob.sync(
+    `**/{*.,}(${HTTP_METHODS.join('|')}).(js|njk)`,
+    {
+      cwd: root
+    }
+  );
   methodFiles.forEach(file => {
     const fullPath = path.resolve(root, file);
-    const handler = require(fullPath);
+    const { routePath, method, extension } = pathForFile(file);
+
+    const handler = getHandler(fullPath, extension);
 
     // Ending `$` ensure we match exact paths and we don't handle paths
     // that have not been defined
-    const { routePath, method } = pathForFile(file);
     router[method]('/' + routePath, handler);
   });
 
   return router;
 };
 
+function getHandler(filePath, extension) {
+  if (extension == 'js') {
+    return require(filePath);
+  } else {
+    return function(req, res) {
+      res.render(filePath, { req, res });
+    };
+  }
+}
+
 function pathForFile(filePath) {
-  const r = new RegExp(`(.*)[/.](${HTTP_METHODS.join('|')}).(js)`);
+  const r = new RegExp(`(.*)[/.](${HTTP_METHODS.join('|')}).(.*?)$`);
   const [
     ,
     // ^ ignore first param
