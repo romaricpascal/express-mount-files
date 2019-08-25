@@ -45,13 +45,22 @@ test(
   }
 );
 test(
-  'it loads handlers from files in the folder',
+  'it loads handler function from files in the folder',
   testResponse,
   '/method-file-js'
 );
 test(
-  'it loads handlers from files in the folder - POST',
+  'it loads handler function from files in the folder - POST',
   testResponse,
   '/method-file-js',
   { method: 'post' }
+);
+test(
+  'it loads handler array from files in the folder',
+  testResponse,
+  '/method-file-array-js',
+  {
+    status: 201,
+    text: 'content'
+  }
 );
