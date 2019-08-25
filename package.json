@@ -2,7 +2,7 @@
   "name": "express-fluffy-train",
   "version": "0.1.0",
   "description": "An express middleware for registering routes through your filesystem",
-  "main": "index.js",
+  "main": "src/index.js",
   "engines": {
     "node": ">=8.12.0"
   },
