@@ -15,13 +15,15 @@ test.before(t => {
 
 // All tests will be the same, send request to a given URL
 // and check the return status (200) and possibly the content
-function testResponse(t, path, { status = 200, method = 'get', body } = {}) {
-  return t.context.agent[method](path).then(response => {
-    t.assert(response.status == status);
-    if (body) {
-      t.assert(body == response.text);
+function testResponse(t, path, { status = 200, method = 'get', text } = {}) {
+  return t.context.agent[method](path).then(
+    ({ status: responseStatus, text: responseText }) => {
+      t.assert(status == responseStatus);
+      if (text) {
+        t.assert(text == responseText);
+      }
     }
-  });
+  );
 }
 
 test('it loads a function in routes.js', testResponse, '/routes-function');
@@ -33,3 +35,12 @@ test('it loads an array in routes.js', testResponse, '/routes-array', {
   status: 201,
   body: 'content'
 });
+test(
+  'it loads the middlewares set in the use key of a route object',
+  testResponse,
+  '/routes-use',
+  {
+    status: 201,
+    body: 'content'
+  }
+);

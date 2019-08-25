@@ -5,7 +5,7 @@ const { Router } = require('express');
 module.exports = function(root, { cwd = process.cwd() } = {}) {
   root = path.resolve(cwd, root);
 
-  const router = new Router();
+  const router = Router();
 
   // First let's list the routes file
   const routes = fastGlob.sync('**/routes.js', { cwd: root });
@@ -36,9 +36,20 @@ function applyConfiguration(router, config) {
 }
 
 function applyConfigurationObject(router, config) {
+  if (config.use) {
+    applyMiddlewareConfiguration(router, config.use);
+  }
   ['get', 'post', 'put', 'delete'].forEach(method => {
     if (config[method]) {
       router[method]('/', config[method]);
     }
   });
+}
+
+function applyMiddlewareConfiguration(router, config) {
+  if (Array.isArray(config)) {
+    router.use(...config);
+  } else {
+    router.use(config);
+  }
 }
