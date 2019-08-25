@@ -31,6 +31,12 @@ test('it loads an object in routes.js', testResponse, '/routes-object');
 test('it loads an object in routes.js - POST', testResponse, '/routes-object', {
   method: 'post'
 });
+test(
+  'it ignores deeper paths when loading an object',
+  testResponse,
+  '/routes-object/path/not-defined',
+  { status: 404 }
+);
 test('it loads an array in routes.js', testResponse, '/routes-array', {
   status: 201,
   body: 'content'
@@ -63,4 +69,15 @@ test(
     status: 201,
     text: 'content'
   }
+);
+test(
+  'it sets the name of the file as path',
+  testResponse,
+  '/method-file-with-path-js/routes'
+);
+test(
+  'it does not handle paths for which no route is defined',
+  testResponse,
+  '/method-file-with-path-js/not-defined',
+  { status: 404 }
 );

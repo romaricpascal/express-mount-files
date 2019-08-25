@@ -27,18 +27,33 @@ module.exports = function(root, { cwd = process.cwd() } = {}) {
     router.use('/' + path.dirname(route), subRouter);
   });
 
-  const methodFiles = fastGlob.sync(`**/(${HTTP_METHODS.join('|')}).js`, {
+  const methodFiles = fastGlob.sync(`**/{*.,}(${HTTP_METHODS.join('|')}).js`, {
     cwd: root
   });
   methodFiles.forEach(file => {
     const fullPath = path.resolve(root, file);
     const handler = require(fullPath);
 
-    router.use('/' + path.dirname(file), handler);
+    // Ending `$` ensure we match exact paths and we don't handle paths
+    // that have not been defined
+    const { routePath, method } = pathForFile(file);
+    router[method]('/' + routePath, handler);
   });
 
   return router;
 };
+
+function pathForFile(filePath) {
+  const r = new RegExp(`(.*)[/.](${HTTP_METHODS.join('|')}).(js)`);
+  const [
+    ,
+    // ^ ignore first param
+    routePath,
+    method,
+    extension
+  ] = r.exec(filePath);
+  return { routePath, method, extension };
+}
 
 function applyConfiguration(router, config) {
   if (Array.isArray(config)) {
