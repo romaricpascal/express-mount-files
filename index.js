@@ -36,7 +36,6 @@ module.exports = function(root, { cwd = process.cwd() } = {}) {
 
     router.use('/' + path.dirname(file), handler);
   });
-  console.log(methodFiles);
 
   return router;
 };
