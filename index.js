@@ -2,6 +2,11 @@ const path = require('path');
 const fastGlob = require('fast-glob');
 const { Router } = require('express');
 
+// Pull the list of HTTP methods from NodeJS
+// similarly to what express does
+const http = require('http');
+const HTTP_METHODS = http.METHODS.map(m => m.toLowerCase());
+
 module.exports = function(root, { cwd = process.cwd() } = {}) {
   root = path.resolve(cwd, root);
 
@@ -39,7 +44,7 @@ function applyConfigurationObject(router, config) {
   if (config.use) {
     applyMiddlewareConfiguration(router, config.use);
   }
-  ['get', 'post', 'put', 'delete'].forEach(method => {
+  HTTP_METHODS.forEach(method => {
     if (config[method]) {
       router[method]('/', config[method]);
     }
