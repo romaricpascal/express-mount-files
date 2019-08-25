@@ -27,6 +27,17 @@ module.exports = function(root, { cwd = process.cwd() } = {}) {
     router.use('/' + path.dirname(route), subRouter);
   });
 
+  const methodFiles = fastGlob.sync(`**/(${HTTP_METHODS.join('|')}).js`, {
+    cwd: root
+  });
+  methodFiles.forEach(file => {
+    const fullPath = path.resolve(root, file);
+    const handler = require(fullPath);
+
+    router.use('/' + path.dirname(file), handler);
+  });
+  console.log(methodFiles);
+
   return router;
 };
 

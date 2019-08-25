@@ -44,3 +44,14 @@ test(
     body: 'content'
   }
 );
+test(
+  'it loads handlers from files in the folder',
+  testResponse,
+  '/method-file-js'
+);
+test(
+  'it loads handlers from files in the folder - POST',
+  testResponse,
+  '/method-file-js',
+  { method: 'post' }
+);
