@@ -30,11 +30,20 @@ test('it loads an array in routes.js', testResponse, '/routes-array', {
   body: 'content'
 });
 test(
-  'it loads the middlewares set in the use key of a route object',
+  'it loads the function set in the use key of a route object as a middleware',
   testResponse,
   '/routes-use',
   {
     status: 201,
-    body: 'content'
+    text: 'content'
+  }
+);
+test(
+  'it loads the array of functions set in the use key of a route object as middlewares',
+  testResponse,
+  '/routes-use-array',
+  {
+    status: 201,
+    text: 'content'
   }
 );

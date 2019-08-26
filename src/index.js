@@ -84,19 +84,11 @@ function applyConfiguration(router, config) {
 
 function applyConfigurationObject(router, config) {
   if (config.use) {
-    applyMiddlewareConfiguration(router, config.use);
+    router.use(config.use);
   }
   HTTP_METHODS.forEach(method => {
     if (config[method]) {
       router[method]('/', config[method]);
     }
   });
-}
-
-function applyMiddlewareConfiguration(router, config) {
-  if (Array.isArray(config)) {
-    router.use(...config);
-  } else {
-    router.use(config);
-  }
 }
