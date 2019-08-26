@@ -38,14 +38,17 @@ module.exports = function(root, { cwd = process.cwd() } = {}) {
     const { routePath, method, extension } = pathForFile(file);
 
     const handler = getHandler(fullPath, extension);
-
     // Ending `$` ensure we match exact paths and we don't handle paths
     // that have not been defined
-    router[method]('/' + routePath, handler);
+    router[method]('/' + toExpressPath(routePath), handler);
   });
 
   return router;
 };
+
+function toExpressPath(routePath) {
+  return routePath.replace(/\$/g, ':');
+}
 
 function getHandler(filePath, extension) {
   if (extension == 'js') {
