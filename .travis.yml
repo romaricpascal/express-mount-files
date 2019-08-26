@@ -7,3 +7,4 @@ matrix:
       script: npm run test -- --maxWorkers=2
     - node_js: '12'
       script: npm run test -- --maxWorkers=2
+after_success: npm run coverage

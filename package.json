@@ -8,7 +8,8 @@
   },
   "scripts": {
     "lint": "eslint '**/*.js'",
-    "test": "nyc --reporter=text ava"
+    "test": "nyc --reporter=text ava",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "@commitlint/config-conventional": "^8.1.0",
     "ava": "^2.3.0",
     "consolidate": "^0.15.1",
+    "coveralls": "^3.0.6",
     "eslint": "^6.2.1",
     "eslint-config-defaults": "^9.0.0",
     "eslint-config-prettier": "^6.1.0",
