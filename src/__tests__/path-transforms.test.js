@@ -24,10 +24,16 @@ test(
 );
 
 test(
-  'it treats `$paramName.<method>.js` files as param placeholder',
+  'it treats `$paramName.<method>.<extension>` files as param placeholder',
   testResponse,
   '/param-name/in-file/you',
   {
     text: 'Hello you!'
   }
+);
+
+test(
+  'it treats `__` as directory separator',
+  testResponse,
+  '/directory-separator/in/folder/or/name'
 );

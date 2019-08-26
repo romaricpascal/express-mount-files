@@ -38,7 +38,7 @@ test(
   }
 );
 
-test.only(
+test(
   'does not make resolving layouts a pain',
   testResponse,
   '/view-rendering/with-layout',

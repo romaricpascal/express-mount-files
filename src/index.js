@@ -47,7 +47,7 @@ module.exports = function(root, { cwd = process.cwd() } = {}) {
 };
 
 function toExpressPath(routePath) {
-  return routePath.replace(/\$/g, ':');
+  return routePath.replace(/\$/g, ':').replace(/__/g, '/');
 }
 
 function getHandler(filePath, extension) {
