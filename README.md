@@ -2,6 +2,7 @@
 
 [![Travis CI - Build Status](https://travis-ci.org/rhumaric/express-fluffy-train.svg?branch=master)](https://travis-ci.org/rhumaric/express-fluffy-train)
 [![Appveyor - Build status](https://ci.appveyor.com/api/projects/status/r2kkx586wajvfm7q/branch/master?svg=true)](https://ci.appveyor.com/project/rhumaric/express-fluffy-train/branch/master)
+[![Coverage Status](https://coveralls.io/repos/github/rhumaric/express-fluffy-train/badge.svg?branch=master)](https://coveralls.io/github/rhumaric/express-fluffy-train?branch=master)
 
 An express middleware that discovers and loads routes within directories. Declare your routes through:
 
