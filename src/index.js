@@ -62,16 +62,23 @@ module.exports = function(root, { cwd = process.cwd() } = {}) {
 
       const handler = getHandler(fullPath, extension);
       return {
+        fullPath,
         routePath: toExpressPath(routePath),
         method,
         extension,
         handler
       };
     })
-    .concat(methodHandlers);
+    .concat(methodHandlers)
+    .sort((routeA, routeB) => {
+      return (
+        -1 * compareRouteDepth(routeA.routePath, routeB.routePath) ||
+        compareRouteVariability(routeA.routePath, routeB.routePath) ||
+        compareMethod(routeA.method, routeB.method) ||
+        compareExtension(routeA.extension, routeB.extension)
+      );
+    });
   methodFiles.forEach(({ method, routePath, handler }) => {
-    // Ending `$` ensure we match exact paths and we don't handle paths
-    // that have not been defined
     router[method]('/' + routePath, handler);
   });
 
@@ -93,6 +100,8 @@ function getHandler(filePath, extension) {
 }
 
 function pathForFile(filePath) {
+  // Ending `$` ensure we match exact paths and we don't handle paths
+  // that have not been defined
   const r = new RegExp(`(.*)[/.](${HTTP_METHODS.join('|')}).(.*?)$`);
   const [
     ,
@@ -129,4 +138,24 @@ function getMethodHandlers(config, routePath) {
     }
   });
   return methodHandlers;
+}
+
+function compareExtension(extensionA, extensionB) {
+  if (extensionA == 'js') {
+    return -1;
+  } else if (extensionB == 'js') {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+function compareMethod(methodA, methodB) {
+  if (methodA == 'get') {
+    return -1;
+  } else if (methodB == 'get') {
+    return 1;
+  } else {
+    return 0;
+  }
 }

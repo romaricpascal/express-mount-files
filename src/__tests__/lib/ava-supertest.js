@@ -11,9 +11,9 @@ module.exports = {
   testResponse(t, path, { status = 200, method = 'get', text } = {}) {
     return t.context.agent[method](path).then(
       ({ status: responseStatus, text: responseText }) => {
-        t.assert(status == responseStatus);
+        t.is(status, responseStatus);
         if (text) {
-          t.assert(text == responseText);
+          t.is(text, responseText);
         }
       }
     );
