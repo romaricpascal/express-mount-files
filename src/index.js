@@ -1,6 +1,8 @@
 const path = require('path');
 const fastGlob = require('fast-glob');
 const { Router } = require('express');
+const compareRouteDepth = require('./lib/compareRouteDepth');
+const compareRouteVariability = require('./lib/compareRouteVariability');
 
 // Pull the list of HTTP methods from NodeJS
 // similarly to what express does
@@ -13,18 +15,32 @@ module.exports = function(root, { cwd = process.cwd() } = {}) {
   const router = Router();
 
   // First let's list the routes file
-  const routes = fastGlob.sync('**/routes.js', { cwd: root });
-  routes.forEach(route => {
-    // Grab the configuration, using the full path as we don't
-    // know where we are relative to this file
-    const fullPath = path.resolve(root, route);
-    const config = require(fullPath);
+  const routes = fastGlob
+    .sync('**/routes.js', { cwd: root })
+    .map(filePath => {
+      const fullPath = path.resolve(root, filePath);
+      const config = require(fullPath);
 
+      return {
+        // We need the express routePath here so that
+        // variables are properly detected when sorting
+        routePath: toExpressPath(filePath),
+        config
+      };
+    })
+    .sort(({ routePath: routePathA }, { routePath: routePathB }) => {
+      return (
+        compareRouteDepth(routePathA, routePathB) ||
+        compareRouteVariability(routePathA, routePathB)
+      );
+    });
+
+  routes.forEach(({ routePath, config }) => {
     // Create a new router specific to this route
     // configure it and set it up
     const subRouter = new Router();
     applyConfiguration(subRouter, config);
-    router.use('/' + path.dirname(route), subRouter);
+    router.use('/' + path.dirname(routePath), subRouter);
   });
 
   const methodFiles = fastGlob.sync(
