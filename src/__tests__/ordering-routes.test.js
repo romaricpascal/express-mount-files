@@ -15,3 +15,9 @@ test(
   '/ordering-routes/somewhere',
   { status: 201 }
 );
+test(
+  'method files come after routes',
+  testResponse,
+  '/ordering-routes-method-files',
+  { text: 'test' }
+);
