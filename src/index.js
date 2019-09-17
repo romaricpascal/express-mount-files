@@ -11,8 +11,11 @@ const HTTP_METHODS = http.METHODS.map(m => m.toLowerCase());
 
 module.exports = function(root, { cwd = process.cwd() } = {}) {
   root = path.resolve(cwd, root);
-
+  // The base router that'll hold everything
   const router = Router();
+
+  // An array collecting the extra routes to be set up
+  const methodHandlers = [];
 
   // First let's list the routes file
   const routes = fastGlob
@@ -24,7 +27,7 @@ module.exports = function(root, { cwd = process.cwd() } = {}) {
       return {
         // We need the express routePath here so that
         // variables are properly detected when sorting
-        routePath: toExpressPath(filePath),
+        routePath: toExpressPath(path.dirname(filePath)),
         config
       };
     })
@@ -40,23 +43,36 @@ module.exports = function(root, { cwd = process.cwd() } = {}) {
     // configure it and set it up
     const subRouter = new Router();
     applyConfiguration(subRouter, config);
-    router.use('/' + path.dirname(routePath), subRouter);
+    // Store potential routes for registering later on
+    if (typeof config == 'object' && !Array.isArray(config)) {
+      methodHandlers.push(...getMethodHandlers(config, routePath));
+    }
+
+    // Register the router with the base router
+    router.use('/' + routePath, subRouter);
   });
 
-  const methodFiles = fastGlob.sync(
-    `**/{*.,}(${HTTP_METHODS.join('|')}).(js|njk)`,
-    {
+  const methodFiles = fastGlob
+    .sync(`**/{*.,}(${HTTP_METHODS.join('|')}).(js|njk)`, {
       cwd: root
-    }
-  );
-  methodFiles.forEach(file => {
-    const fullPath = path.resolve(root, file);
-    const { routePath, method, extension } = pathForFile(file);
+    })
+    .map(filePath => {
+      const fullPath = path.resolve(root, filePath);
+      const { routePath, method, extension } = pathForFile(filePath);
 
-    const handler = getHandler(fullPath, extension);
+      const handler = getHandler(fullPath, extension);
+      return {
+        routePath: toExpressPath(routePath),
+        method,
+        extension,
+        handler
+      };
+    })
+    .concat(methodHandlers);
+  methodFiles.forEach(({ method, routePath, handler }) => {
     // Ending `$` ensure we match exact paths and we don't handle paths
     // that have not been defined
-    router[method]('/' + toExpressPath(routePath), handler);
+    router[method]('/' + routePath, handler);
   });
 
   return router;
@@ -91,20 +107,26 @@ function pathForFile(filePath) {
 function applyConfiguration(router, config) {
   if (Array.isArray(config)) {
     router.use(...config);
-  } else if (typeof config == 'object') {
-    applyConfigurationObject(router, config);
-  } else {
+  } else if (typeof config == 'function') {
     config(router);
+  } else {
+    if (config.use) {
+      router.use(config.use);
+    }
   }
 }
 
-function applyConfigurationObject(router, config) {
-  if (config.use) {
-    router.use(config.use);
-  }
+function getMethodHandlers(config, routePath) {
+  const methodHandlers = [];
   HTTP_METHODS.forEach(method => {
     if (config[method]) {
-      router[method]('/', config[method]);
+      methodHandlers.push({
+        routePath,
+        method,
+        extension: 'js',
+        handler: config[method]
+      });
     }
   });
+  return methodHandlers;
 }
