@@ -151,11 +151,16 @@ function compareExtension(extensionA, extensionB) {
 }
 
 function compareMethod(methodA, methodB) {
-  if (methodA == 'get') {
-    return -1;
-  } else if (methodB == 'get') {
-    return 1;
-  } else {
+  if (methodA == methodB) {
     return 0;
   }
+  // We want A last if it's get
+  if (methodA == 'get') {
+    return 1;
+  }
+  // We want B last if it's get
+  if (methodB == 'get') {
+    return -1;
+  }
+  return 0;
 }
