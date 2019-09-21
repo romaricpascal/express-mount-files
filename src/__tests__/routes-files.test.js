@@ -4,8 +4,6 @@ const { testResponse } = require('./lib/ava-supertest');
 
 test.before(setupServer());
 
-// All tests will be the same, send request to a given URL
-test('it loads a function in routes.js', testResponse, '/routes-function');
 test('it loads an object in routes.js', testResponse, '/routes-object');
 test('it loads an object in routes.js - POST', testResponse, '/routes-object', {
   method: 'post'

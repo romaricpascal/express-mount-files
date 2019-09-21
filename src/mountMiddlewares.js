@@ -47,8 +47,6 @@ module.exports = function mountMiddlewares(router, root) {
 function applyConfiguration(router, config) {
   if (Array.isArray(config)) {
     router.use(...config);
-  } else if (typeof config == 'function') {
-    config(router);
   } else {
     if (config.use) {
       router.use(config.use);
