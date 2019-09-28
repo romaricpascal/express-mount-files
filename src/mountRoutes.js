@@ -5,9 +5,13 @@ const toExpressPath = require('./toExpressPath');
 const compareRouteDepth = require('./compareRouteDepth');
 const compareRouteVariability = require('./compareRouteVariability');
 
-module.exports = function mountRoutes(router, root, { routes = [] }) {
+module.exports = function mountRoutes(
+  router,
+  root,
+  { routes = [], viewExtensions = [] }
+) {
   routes
-    .concat(discoverRoutes(root))
+    .concat(discoverRoutes(root, { viewExtensions }))
     .sort((routeA, routeB) => {
       return (
         -1 * compareRouteDepth(routeA.routePath, routeB.routePath) ||
@@ -21,11 +25,16 @@ module.exports = function mountRoutes(router, root, { routes = [] }) {
     });
 };
 
-function discoverRoutes(root) {
+function discoverRoutes(root, { viewExtensions }) {
   return fastGlob
-    .sync(`**/{*.,}(${HTTP_METHODS.join('|')}).(js|njk)`, {
-      cwd: root
-    })
+    .sync(
+      `**/{*.,}(${HTTP_METHODS.join('|')}).(${['js', ...viewExtensions].join(
+        '|'
+      )})`,
+      {
+        cwd: root
+      }
+    )
     .map(filePath => {
       const fullPath = path.resolve(root, filePath);
       const { routePath, method, extension } = configForFile(filePath);

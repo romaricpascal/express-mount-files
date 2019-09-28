@@ -13,7 +13,7 @@ module.exports = function(root = 'routes') {
     app.set('view engine', 'html');
     app.set('views', path.join(__dirname, root));
     // Set up our middleware for testing
-    app.use(middleware(root, { cwd: __dirname }));
+    app.use(middleware(root, { cwd: __dirname, viewExtensions: ['njk'] }));
     // Add a catch-all 404
     app.use((req, res) => res.sendStatus(404));
     // Prepare the supertest agent for querying
