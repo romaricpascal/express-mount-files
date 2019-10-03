@@ -1,4 +1,4 @@
-# express-fluffy-train (Temporary name - Work in Progress)
+# express-mount-files
 
 [![Travis CI - Build Status](https://travis-ci.org/rhumaric/express-fluffy-train.svg?branch=master)](https://travis-ci.org/rhumaric/express-fluffy-train)
 [![Appveyor - Build status](https://ci.appveyor.com/api/projects/status/r2kkx586wajvfm7q/branch/master?svg=true)](https://ci.appveyor.com/project/rhumaric/express-fluffy-train/branch/master)

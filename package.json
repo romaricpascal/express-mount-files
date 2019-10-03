@@ -1,5 +1,5 @@
 {
-  "name": "express-fluffy-train",
+  "name": "express-mount-files",
   "version": "0.1.0",
   "description": "An express middleware for registering routes through your filesystem",
   "main": "src/index.js",
