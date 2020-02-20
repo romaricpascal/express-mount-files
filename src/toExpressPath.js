@@ -1,3 +1,7 @@
 module.exports = function toExpressPath(routePath) {
-  return routePath.replace(/\$/g, ':').replace(/__/g, '/');
+  if (routePath) {
+    return routePath.replace(/\$/g, ':').replace(/__/g, '/');
+  } else {
+    return '/';
+  }
 };

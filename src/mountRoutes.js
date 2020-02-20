@@ -52,8 +52,10 @@ function discoverRoutes(root, { viewExtensions }) {
 
 function configForFile(filePath) {
   // Ending `$` ensure we match exact paths and we don't handle paths
-  // that have not been defined
-  const r = new RegExp(`(.*)[/.](${HTTP_METHODS.join('|')}).(.*?)$`);
+  // that have not been defined.
+  // The inital non-capturing group serves for handling the `get.js` files
+  // straight in the root folder, for which there's no preceding filename or path
+  const r = new RegExp(`(?:(.*)[/.]|)(${HTTP_METHODS.join('|')}).(.*?)$`);
   const [
     ,
     // ^ ignore first param

@@ -4,6 +4,7 @@ const { testResponse } = require('./lib/ava-supertest');
 
 test.before(setupServer());
 
+test('it loads handler function at the root', testResponse, '/');
 test(
   'it loads handler function from files in the folder',
   testResponse,
