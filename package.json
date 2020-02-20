@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rhumaric/express-fluffy-train.git"
+    "url": "git+https://github.com/rhumaric/express-mount-files.git"
   },
   "keywords": [
     "express",
@@ -22,9 +22,9 @@
   "author": "Romaric Pascal <hello@romaricpascal.is>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rhumaric/express-fluffy-train/issues"
+    "url": "https://github.com/rhumaric/express-mount-files/issues"
   },
-  "homepage": "https://github.com/rhumaric/express-fluffy-train#readme",
+  "homepage": "https://github.com/rhumaric/express-mount-files#readme",
   "devDependencies": {
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",

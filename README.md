@@ -1,8 +1,8 @@
 # express-mount-files
 
-[![Travis CI - Build Status](https://travis-ci.org/rhumaric/express-fluffy-train.svg?branch=master)](https://travis-ci.org/rhumaric/express-fluffy-train)
-[![Appveyor - Build status](https://ci.appveyor.com/api/projects/status/r2kkx586wajvfm7q/branch/master?svg=true)](https://ci.appveyor.com/project/rhumaric/express-fluffy-train/branch/master)
-[![Coverage Status](https://coveralls.io/repos/github/rhumaric/express-fluffy-train/badge.svg?branch=master)](https://coveralls.io/github/rhumaric/express-fluffy-train?branch=master)
+[![Travis CI - Build Status](https://travis-ci.org/rhumaric/express-mount-files.svg?branch=master)](https://travis-ci.org/rhumaric/express-mount-files)
+[![Appveyor - Build status](https://ci.appveyor.com/api/projects/status/r2kkx586wajvfm7q/branch/master?svg=true)](https://ci.appveyor.com/project/rhumaric/express-mount-files/branch/master)
+[![Coverage Status](https://coveralls.io/repos/github/rhumaric/express-mount-files/badge.svg?branch=master)](https://coveralls.io/github/rhumaric/express-mount-files?branch=master)
 
 An express middleware that lets you match your folder structure to your app's URL structure.
 Declare routes by creating files at the path you want them to handle requests for, helping identify which bit of the app is handling a request hitting a specific URL.
@@ -12,7 +12,7 @@ Declare routes by creating files at the path you want them to handle requests fo
 Add the middleware to your express app, passing the folder that'll contain your routes.
 
 ```js
-const mw = require('express-fluffy-train');
+const mw = require('express-mount-files');
 // Use the routes folder as the root for all your routes
 app.use(mw('routes'))
 ```
@@ -45,7 +45,7 @@ For this to happen, you'll need to:
 
   ```js
     // Provided `pug` has been registered as a view engine for Express
-    const mw = require('express-fluffy-train');
+    const mw = require('express-mount-files');
     app.use(mw('routes', {viewExtensions: ['pug']}))
   ```
 
@@ -81,7 +81,7 @@ For routes with the same depth (say `/users/$userId/edit.get.js` and `/users/me/
 
 ## Mounting middlewares
 
-express-fluffy-train also lets you  set up middlewares of specific routes. It'll look for `routes.js` files exporting an `Array` of functions to be registered as middlewares.
+express-mount-files also lets you  set up middlewares of specific routes. It'll look for `routes.js` files exporting an `Array` of functions to be registered as middlewares.
 
 The following `routes/middlewares/routes.js` will register two functions to be used as middlewares for requests hitting `routes/middlewares`.
 
