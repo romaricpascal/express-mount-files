@@ -9,7 +9,8 @@
   "scripts": {
     "lint": "eslint '**/*.js'",
     "test": "nyc --reporter=text ava",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "release": "np"
   },
   "repository": {
     "type": "git",
@@ -36,13 +37,14 @@
     "eslint-config-prettier": "^6.1.0",
     "eslint-plugin-node": "^9.1.0",
     "eslint-plugin-prettier": "^3.1.0",
+    "express": "^4.17.1",
     "husky": "^3.0.4",
     "lint-staged": "^9.2.3",
+    "np": "^6.1.0",
     "nunjucks": "^3.2.0",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
-    "supertest": "^4.0.2",
-    "express": "^4.17.1"
+    "supertest": "^4.0.2"
   },
   "peerDependencies": {
     "express": "^4.17.1"
