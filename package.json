@@ -41,10 +41,13 @@
     "nunjucks": "^3.2.0",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
-    "supertest": "^4.0.2"
+    "supertest": "^4.0.2",
+    "express": "^4.17.1"
+  },
+  "peerDependencies": {
+    "express": "^4.17.1"
   },
   "dependencies": {
-    "express": "^4.17.1",
     "fast-glob": "^3.0.4"
   },
   "ava": {
