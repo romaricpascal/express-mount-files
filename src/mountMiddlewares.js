@@ -6,7 +6,7 @@ const toExpressPath = require('./toExpressPath');
 const compareRouteDepth = require('./compareRouteDepth');
 const compareRouteVariability = require('./compareRouteVariability');
 
-module.exports = function mountMiddlewares(router, root) {
+module.exports = function mountMiddlewares(router, root, { paramChar }) {
   // Extra routes to configure
   const routesFromMiddlewares = [];
   // First let's list the routes file
@@ -19,7 +19,7 @@ module.exports = function mountMiddlewares(router, root) {
       return {
         // We need the express routePath here so that
         // variables are properly detected when sorting
-        routePath: toExpressPath(path.dirname(filePath)),
+        routePath: toExpressPath(path.dirname(filePath), { paramChar }),
         config
       };
     })
