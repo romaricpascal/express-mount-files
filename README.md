@@ -1,3 +1,5 @@
+> This repository is now [hosted on Gitlab](https://gitlab.com/romaricpascal/express-mount-files). Please head there if you wish to contribute. Thanks 🙂
+
 # express-mount-files
 
 [![Travis CI - Build Status](https://travis-ci.org/rhumaric/express-mount-files.svg?branch=master)](https://travis-ci.org/rhumaric/express-mount-files)
