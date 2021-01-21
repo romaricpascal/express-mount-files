@@ -1,6 +1,8 @@
-module.exports = function toExpressPath(routePath) {
+module.exports = function toExpressPath(routePath, { paramChar }) {
   if (routePath) {
-    return routePath.replace(/\$/g, ':').replace(/__/g, '/');
+    return routePath
+      .replace(new RegExp(`\\${paramChar}`, 'g'), ':')
+      .replace(/__/g, '/');
   } else {
     return '/';
   }
